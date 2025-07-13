@@ -59,7 +59,7 @@ streamlit run app.py
 If you find issues or would like to add features (like more diseases or UI improvements), feel free to fork the repo and submit a pull request.
 
 ## 📜 License
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
 You are free to use, modify, and share it for educational or personal purposes.
 
 
