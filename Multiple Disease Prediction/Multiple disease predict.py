@@ -13,11 +13,11 @@ def to_float(val):
 #Loading the saved models
 
 
-diabetes_model = pickle.load(open('Saved models/diabetes_model.sav','rb'))
+diabetes_model = pickle.load(open('Multiple-Disease-Prediction-System-/Multiple Disease Prediction/Saved models/diabetes_model.sav','rb'))
 
-heart_disease_model = pickle.load(open('Saved models/heart_disease_model.sav','rb'))
+heart_disease_model = pickle.load(open('Multiple-Disease-Prediction-System-/Multiple Disease Prediction/Saved models/heart_disease_model.sav','rb'))
 
-parkinsons_model = pickle.load(open('Saved models/parkinsons_model.sav','rb'))
+parkinsons_model = pickle.load(open('Multiple-Disease-Prediction-System-/Multiple Disease Prediction/Saved models/parkinsons_model.sav','rb'))
 
 #Sidebar for navigation
 
