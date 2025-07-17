@@ -13,11 +13,10 @@ def to_float(val):
 #Loading the saved models
 
 
-diabetes_model = pickle.load(open('diabetes_model.sav','rb'))
+diabetes_model = pickle.load(open('Saved Models/diabetes_model.sav', 'rb'))
+heart_disease_model = pickle.load(open('Saved Models/heart_disease_model.sav', 'rb'))
+parkinsons_model = pickle.load(open('Saved Models/parkinsons_model.sav', 'rb'))
 
-heart_disease_model = pickle.load(open('heart_disease_model.sav','rb'))
-
-parkinsons_model = pickle.load(open('parkinsons_model.sav','rb'))
 
 #Sidebar for navigation
 
