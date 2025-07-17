@@ -2,17 +2,22 @@
 import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
+import numpy as np
 
+def to_float(val):
+    try:
+        return float(val)
+    except:
+        return np.nan
 
 #Loading the saved models
 
 
-diabetes_model = pickle.load(open('C:/Users/Admin/Desktop/Multiple Disease Prediction System/Saved models/diabetes_model.sav','rb'))
+diabetes_model = pickle.load(open('C:/Users/Admin/Downloads/Multiple-Disease-Prediction-System-main/Multiple-Disease-Prediction-System-main/Saved models/diabetes_model.sav','rb'))
 
-heart_disease_model = pickle.load(open('C:/Users/Admin/Desktop/Multiple Disease Prediction System/Saved models/heart_disease_model.sav','rb'))
+heart_disease_model = pickle.load(open('C:/Users/Admin/Downloads/Multiple-Disease-Prediction-System-main/Multiple-Disease-Prediction-System-main/Saved models/heart_disease_model.sav','rb'))
 
-parkinsons_model = pickle.load(open('C:/Users/Admin/Desktop/Multiple Disease Prediction System/Saved models/parkinsons_model.sav','rb'))
-
+parkinsons_model = pickle.load(open('C:/Users/Admin/Downloads/Multiple-Disease-Prediction-System-main/Multiple-Disease-Prediction-System-main/Saved models/parkinsons_model.sav','rb'))
 
 #Sidebar for navigation
 
@@ -48,16 +53,16 @@ if(selected == 'Diabetes Prediction'):
     #Creating a button for prediction
     
     if st.button('Diabetes Test Result'):
-        diab_prediction = diabetes_model.predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
-        
-        if (diab_prediction[0]==1):
-            diab_diagnosis = 'The person is Diabetic'
-            
+        fields = [Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]
+        if any(f.strip() == "" for f in fields):
+            st.warning("Please enter all values for Diabetes Prediction.")
         else:
-            diab_diagnosis = 'The person is Not Diabetic'
-            
-            
-    st.success(diab_diagnosis)
+            diab_prediction = diabetes_model.predict([[to_float(Pregnancies), to_float(Glucose), to_float(BloodPressure), to_float(SkinThickness), to_float(Insulin), to_float(BMI), to_float(DiabetesPedigreeFunction), to_float(Age)]])
+            if (diab_prediction[0]==1):
+                diab_diagnosis = 'The person is Diabetic'
+            else:
+                diab_diagnosis = 'The person is Not Diabetic'
+            st.success(diab_diagnosis)
     
     
     
@@ -89,20 +94,19 @@ if(selected == 'Heart Disease Prediction'):
     #Creating a button for prediction
     
     if st.button('Heart Test Result'):
-        heart_prediction = heart_disease_model.predict([[age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]])
-        
-        if (heart_prediction[0]==1):
-            heart_diagnosis = 'The person is suffering from Heart disease'
-            
+        fields = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+        # If all fields are at default (0 or empty), prompt user to enter values
+        if all((str(f).strip() == "" or f == 0) for f in fields):
+            st.warning("Please enter all values for Heart Disease Prediction.")
         else:
-            heart_diagnosis = 'The person is Not suffering from Heart disease'
-            
-            
-    st.success(heart_diagnosis)
+            heart_prediction = heart_disease_model.predict([[to_float(age), to_float(sex), to_float(cp), to_float(trestbps), to_float(chol), to_float(fbs), to_float(restecg), to_float(thalach), to_float(exang), to_float(oldpeak), to_float(slope), to_float(ca), to_float(thal)]])
+            if (heart_prediction[0]==1):
+                heart_diagnosis = 'The person is suffering from Heart disease'
+            else:
+                heart_diagnosis = 'The person is Not suffering from Heart disease'
+            st.success(heart_diagnosis)
     
     
-    
-
     
 #Parkinsons Prediction Page
 if(selected == 'Parkinsons Prediction'):
@@ -133,23 +137,33 @@ if(selected == 'Parkinsons Prediction'):
     spread2 = st.text_input('spread2')
     D2 = st.text_input('D2')
     PPE = st.text_input('PPE')
-        
-        
+            
+            
     #Code for prediction
     parkinsons_diagnosis = ''
-        
-    #Creating a button for prediction
-        
-    if st.button('Parkinsons Test Result'):
-            parkinsons_prediction = parkinsons_model.predict([[fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP, Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]])
             
+    #Creating a button for prediction
+            
+    if st.button('Parkinsons Test Result'):
+        fields = [fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP, Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]
+        if any(f.strip() == "" for f in fields):
+            st.warning("Please enter all values for Parkinsons Prediction.")
+        else:
+            parkinsons_prediction = parkinsons_model.predict([[to_float(fo), to_float(fhi), to_float(flo), to_float(Jitter_percent), to_float(Jitter_Abs), to_float(RAP), to_float(PPQ), to_float(DDP), to_float(Shimmer), to_float(Shimmer_dB), to_float(APQ3), to_float(APQ5), to_float(APQ), to_float(DDA), to_float(NHR), to_float(HNR), to_float(RPDE), to_float(DFA), to_float(spread1), to_float(spread2), to_float(D2), to_float(PPE)]])
             if (parkinsons_prediction[0]==1):
                 parkinsons_diagnosis = 'The person is suffering from Parkinsons disease'
-                
             else:
                 parkinsons_diagnosis = 'The person is Not suffering from Parkinsons disease'
-                
-                
-    st.success(parkinsons_diagnosis)
-        
-        
+            st.success(parkinsons_diagnosis)
+    
+
+st.markdown(
+    """
+    <hr style="margin-top: 40px; margin-bottom: 10px;">
+    <div style="text-align: center; color: #444; font-size: 18px; font-weight: 600; background:rgba(255,255,255,0.7); padding: 8px 0; border-radius: 8px;">
+        © NIMAL DINESH M 2025
+    </div>
+    """,
+    unsafe_allow_html=True
+) 
+   
